@@ -1,0 +1,48 @@
+flowchart TB
+    A[算法动画学习系统] --> B[用户与认证模块]
+    A --> C[算法库模块]
+    A --> D[动画演示模块]
+    A --> E[学习记录模块]
+    A --> F[学习资料与分类模块]
+
+    B --> B1[登录注册 / JWT / 角色]
+    B --> B2[权限与状态]
+
+    C --> C1[算法元数据]
+    C --> C2[复杂度与伪代码]
+
+    D --> D1[状态机驱动]
+    D --> D2[伪代码同步高亮]
+    D --> D3[速度/参数可调]
+
+    E --> E1[学习时间与进度]
+    E --> E2[收藏与统计]
+
+    F --> F1[分类/内容/代码示例]
+
+    subgraph Frontend[前端（React + Vite + Tailwind）]
+      Pages[页面：主页/算法库/学习/登录/个人中心]
+      Viz[动画组件：排序/搜索/图/DP]
+      Utils[API封装/主题/zustand]
+      Pages --> Viz
+      Pages --> Utils
+    end
+
+    subgraph DevServer[Vite 开发服务器]
+      Proxy[/代理 /api -> 5000/]
+    end
+
+    Frontend --> DevServer
+    DevServer -->|/api| Backend
+
+    subgraph Backend[后端（Flask + SQLAlchemy）]
+      App[路由/认证/JWT/CORS]
+      Services[服务：动画生成/用户]
+      Models[数据模型：Users/Algorithms/...]
+      App --> Services
+      App --> Models
+    end
+
+    Backend --> DB[(数据库：SQLite/PostgreSQL)]
+    Backend --> DataAssets[学习资源]
+
